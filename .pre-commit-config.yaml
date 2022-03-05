@@ -1,0 +1,82 @@
+default_stages: [commit, push]
+exclude: app/function/b1_function/src/schema_ergle.py
+
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.1.0
+  hooks:
+  - id: check-ast
+    name: should NOT be a Python file with invalid AST
+  - id: check-added-large-files
+    name: should NOT add large files
+  - id: check-merge-conflict
+    name: should NOT have conflict markers
+  - id: double-quote-string-fixer
+    name: should NOT use double quote for strings
+  - id: trailing-whitespace
+    name: should NOT have trailing whitespace
+  - id: end-of-file-fixer
+    name: should NOT have trailing newlines
+  - id: detect-aws-credentials
+    name: should NOT commit AWS credentials
+  - id: detect-private-key
+    name: should NOT commit AWS private keys
+
+- repo: https://github.com/pre-commit/pygrep-hooks
+  rev: v1.9.0
+  hooks:
+  - id: python-no-eval
+    name: should NOT use eval
+  - id: python-no-log-warn
+    name: should NOT use logging.warn
+  - id: python-use-type-annotations
+    name: should NOT use comment type annotations
+
+- repo: https://github.com/asottile/add-trailing-comma
+  rev: v2.2.1
+  hooks:
+  - id: add-trailing-comma
+    name: should have commas in the right places
+
+- repo: https://github.com/pre-commit/mirrors-autopep8
+  rev: v1.6.0
+  hooks:
+  - id: autopep8
+    name: should pass autopep8 check
+    args:
+    - --in-place
+    - --aggressive
+
+- repo: https://github.com/pycqa/isort
+  rev: 5.10.1
+  hooks:
+    - id: isort
+      name: should pass isort check
+      args:
+      - --profile
+      - black
+      - --force-single-line-imports
+
+- repo: https://github.com/pycqa/autoflake
+  rev: v1.4
+  hooks:
+    - id: autoflake
+      name: should pass autoflake check
+      args:
+      - --in-place
+      - --remove-all-unused-imports
+      - --remove-unused-variables
+
+- repo: local
+  hooks:
+  - id: no-print
+    name: should NOT commit print function
+    entry: '(^|[a-zA-Z0-9_ ])print\('
+    language: pygrep
+    files: "^(app/function/|^tests/)"
+
+  - id: no-tab
+    name: should NOT commit tab character
+    entry: '\t'
+    language: pygrep
+    files: "^(app/function/|^tests/)"
