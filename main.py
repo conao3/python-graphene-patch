@@ -1,8 +1,10 @@
+
 import flask
 import flask_graphql
 import graphene
 import graphene_sqlalchemy
 import graphene_sqlalchemy.converter
+import graphene_sqlalchemy.types
 import sqlalchemy.engine
 import sqlalchemy.ext.declarative
 import sqlalchemy.ext.hybrid
@@ -48,6 +50,11 @@ db_session.commit()
 
 # Graphene config
 
+# unittest.mock.patch(
+#     'graphene_sqlalchemy.types.convert_sqlalchemy_hybrid_method',
+#     side_effect=lambda hybrid_prop, resolver, **field_kwargs: graphene.Field(
+#         resolver=resolver, type=graphene.Int),
+# ).start()
 
 def convert_sqlalchemy_hybrid_method(hybrid_prop, resolver, **field_kwargs):
     if 'type' not in field_kwargs:
@@ -56,7 +63,8 @@ def convert_sqlalchemy_hybrid_method(hybrid_prop, resolver, **field_kwargs):
     return graphene.Field(resolver=resolver, **field_kwargs)
 
 
-graphene_sqlalchemy.converter.convert_sqlalchemy_hybrid_method = convert_sqlalchemy_hybrid_method
+# graphene_sqlalchemy.converter.convert_sqlalchemy_hybrid_method = convert_sqlalchemy_hybrid_method
+graphene_sqlalchemy.types.convert_sqlalchemy_hybrid_method = convert_sqlalchemy_hybrid_method
 
 
 class Department(graphene_sqlalchemy.SQLAlchemyObjectType):
