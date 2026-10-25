@@ -34,13 +34,13 @@ graphene_sqlalchemy.types.convert_sqlalchemy_hybrid_method = convert_sqlalchemy_
 
 ## Requirements
 
-- Python 3.10+
+- Python 3.11+
 - Poetry
 
 ## Getting Started
 
 ```bash
-poetry env use 3.10
+poetry env use 3.11
 poetry install
 ```
 
