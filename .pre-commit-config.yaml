@@ -1,9 +1,9 @@
-default_stages: [commit, push]
+default_stages: [pre-commit, pre-push]
 exclude: app/function/b1_function/src/schema_ergle.py
 
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.1.0
+  rev: v6.0.0
   hooks:
   - id: check-ast
     name: should NOT be a Python file with invalid AST
@@ -19,11 +19,13 @@ repos:
     name: should NOT have trailing newlines
   - id: detect-aws-credentials
     name: should NOT commit AWS credentials
+    args:
+    - --allow-missing-credentials
   - id: detect-private-key
     name: should NOT commit AWS private keys
 
 - repo: https://github.com/pre-commit/pygrep-hooks
-  rev: v1.9.0
+  rev: v1.10.0
   hooks:
   - id: python-no-eval
     name: should NOT use eval
@@ -33,13 +35,13 @@ repos:
     name: should NOT use comment type annotations
 
 - repo: https://github.com/asottile/add-trailing-comma
-  rev: v2.2.1
+  rev: v4.0.0
   hooks:
   - id: add-trailing-comma
     name: should have commas in the right places
 
-- repo: https://github.com/pre-commit/mirrors-autopep8
-  rev: v1.6.0
+- repo: https://github.com/hhatto/autopep8
+  rev: v2.3.2
   hooks:
   - id: autopep8
     name: should pass autopep8 check
@@ -48,7 +50,7 @@ repos:
     - --aggressive
 
 - repo: https://github.com/pycqa/isort
-  rev: 5.10.1
+  rev: 9.0.2
   hooks:
     - id: isort
       name: should pass isort check
@@ -58,7 +60,7 @@ repos:
       - --force-single-line-imports
 
 - repo: https://github.com/pycqa/autoflake
-  rev: v1.4
+  rev: v2.4.0
   hooks:
     - id: autoflake
       name: should pass autoflake check
